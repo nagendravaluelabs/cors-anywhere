@@ -8,6 +8,8 @@ var port = process.env.PORT || 8080;
 // use originWhitelist instead.
 var originBlacklist = parseEnvList(process.env.CORSANYWHERE_BLACKLIST);
 var originWhitelist = parseEnvList(process.env.CORSANYWHERE_WHITELIST);
+var AIA_API_SECRET = process.env.AIA_API_SECRET;
+var AIA_API_CLIENT_ID = process.env.AIA_API_CLIENT_ID;
 function parseEnvList(env) {
   if (!env) {
     return [];
@@ -20,6 +22,8 @@ var checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELI
 
 var cors_proxy = require('./lib/cors-anywhere');
 cors_proxy.createServer({
+  clientID: AIA_API_CLIENT_ID,
+  apiSecret: AIA_API_SECRET,
   originBlacklist: originBlacklist,
   originWhitelist: originWhitelist,
   requireHeader: ['origin', 'x-requested-with'],
